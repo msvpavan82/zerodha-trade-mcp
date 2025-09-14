@@ -56,7 +56,7 @@ public class KiteTradingService {
         orderParams.orderType = Constants.ORDER_TYPE_MARKET;
         orderParams.tradingsymbol = tradingSymbol;
         orderParams.product = Constants.PRODUCT_CNC;
-        orderParams.exchange = Constants.EXCHANGE_NSE;
+        orderParams.exchange = Constants.EXCHANGE_BSE;
         orderParams.transactionType = (transactionType.equals("BUY") ? Constants.TRANSACTION_TYPE_BUY : Constants.TRANSACTION_TYPE_SELL);
 
         KiteConnect kiteSdk = initializeKiteConnect();

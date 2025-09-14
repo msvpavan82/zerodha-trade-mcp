@@ -2,6 +2,7 @@ package org.example.zerodhatrade.controller;
 
 import com.zerodhatech.kiteconnect.kitehttp.exceptions.KiteException;
 import com.zerodhatech.models.Order;
+import org.example.zerodhatrade.model.Trade;
 import org.example.zerodhatrade.service.KiteTradingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,8 @@ public class KiteTradingController {
 
     @GetMapping("/order")
     public ResponseEntity<?> placeOrder() throws IOException, KiteException {
-        Order order = kiteTradingService.placeOrder(1, "TATASTEEL", "BUY");
-        return order != null ? ResponseEntity.ok("Order Placed Successfully")
-                : ResponseEntity.ok("Unable to place the order");
+        Order order = kiteTradingService.placeOrder(1, "BHARATGEAR", "BUY");
+        return order != null ? ResponseEntity.ok(new Trade(order.orderId))
+                : ResponseEntity.ok(new Trade("-1"));
     }
 }

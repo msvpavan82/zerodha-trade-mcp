@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+
+    <!-- Define log folder and file -->
+    <property name="LOG_PATH" value="/Users/msvpavan/Downloads/Learning/projects/zerodha-trade/logs" />
+    <property name="LOG_FILE" value="${LOG_PATH}/zerodha-trade.log" />
+
+    <!-- RollingFileAppender -->
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Must include %i when using size-and-time policy -->
+            <fileNamePattern>${LOG_PATH}/zerodha-trade-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>  <!-- Roll if file > 10MB -->
+            <maxHistory>7</maxHistory>       <!-- Keep 30 days of logs -->
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+<!--    Disabling the console logging for the MCP-->
+
+<!--    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level -&#45;&#45; [%t] %-40.40logger{39} : %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+    <!-- Root logger sends logs to both -->
+    <root level="INFO">
+<!--        <appender-ref ref="CONSOLE" />-->
+        <appender-ref ref="ROLLING" />
+    </root>
+
+</configuration>

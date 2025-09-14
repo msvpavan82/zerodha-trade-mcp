@@ -3,10 +3,9 @@ package org.example.zerodhatrade.service;
 import com.zerodhatech.kiteconnect.KiteConnect;
 import com.zerodhatech.kiteconnect.kitehttp.exceptions.KiteException;
 import com.zerodhatech.kiteconnect.utils.Constants;
-import com.zerodhatech.models.Order;
-import com.zerodhatech.models.OrderParams;
-import com.zerodhatech.models.User;
+import com.zerodhatech.models.*;
 import jakarta.annotation.PostConstruct;
+import org.example.zerodhatrade.model.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
@@ -14,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class KiteTradingService {
@@ -41,7 +42,6 @@ public class KiteTradingService {
         kiteSdk.setAccessToken(accessToken);
         try {
             String userName = kiteSdk.getProfile().userName;
-            logger.warn(userName);
         } catch(IOException | KiteException e) {
             logger.warn("Access Token Expired!");
             generateSession(kiteSdk);
@@ -66,6 +66,22 @@ public class KiteTradingService {
             logger.error("Error encountered while placing the order...");
             return null;
         }
+    }
+
+    @Tool(name = "get-all-holdings", description = "Get all holdings")
+    public List<Position> getHoldings() {
+        List<Position> positions = new ArrayList<>();
+        KiteConnect kiteSdk = initializeKiteConnect();
+        try {
+            List<Holding> holdings = kiteSdk.getHoldings();
+            holdings.forEach(holding -> {
+                positions.add(new Position(holding.quantity, holding.tradingSymbol, holding.lastPrice));
+            });
+
+        } catch(IOException | KiteException e) {
+            logger.error("Not able to fetch the holdings");
+        }
+        return positions;
     }
 
     public void generateSession(KiteConnect kiteSdk) {

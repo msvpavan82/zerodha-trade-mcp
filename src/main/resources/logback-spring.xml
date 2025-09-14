@@ -21,17 +21,17 @@
         </encoder>
     </appender>
 
-<!--    Disabling the console logging for the MCP-->
+<!--    Comment the console logging for the MCP-->
 
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level --- [%t] %-40.40logger{39} : %msg%n</pattern>
-        </encoder>
-    </appender>
+<!--    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level -&#45;&#45; [%t] %-40.40logger{39} : %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
     <!-- Root logger sends logs to both -->
     <root level="INFO">
-        <appender-ref ref="CONSOLE" />
+<!--        <appender-ref ref="CONSOLE" />-->
         <appender-ref ref="ROLLING" />
     </root>
 
